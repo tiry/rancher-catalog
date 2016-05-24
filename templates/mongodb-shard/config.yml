@@ -1,0 +1,5 @@
+name: MongoDB Shard ReplicatSet
+description: |
+  Deploy MongoDB ReplicaSet as a Shard
+version: 3.2
+category: Database
