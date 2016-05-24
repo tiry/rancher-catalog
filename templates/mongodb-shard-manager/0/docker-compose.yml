@@ -6,9 +6,9 @@ mongo-config:
   entrypoint: /opt/rancher/bin/entrypoint.sh
   command:
   - --configsvr  
-  - --port 27017
   - --replSet
   - "${replset_name}"
+  - --port 27017
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
