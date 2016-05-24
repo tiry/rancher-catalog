@@ -6,7 +6,6 @@ mongo-config:
   entrypoint: /opt/rancher/bin/entrypoint.sh
   command:
   - --configsvr  
-  - --storageEngine wiredTiger
   - --port 27017
   - --replSet
   - "${replset_name}"
