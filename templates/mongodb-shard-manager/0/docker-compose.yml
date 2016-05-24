@@ -7,8 +7,7 @@ mongo-config:
   command:
   - --configsvr  
   - --storageEngine wiredTiger
-  - --port
-  - 27017
+  - --port 27017
   - --replSet
   - "${replset_name}"
   image: mongo:3.2
