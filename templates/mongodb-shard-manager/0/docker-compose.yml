@@ -1,7 +1,7 @@
 mongo-config:
   restart: always
   environment:
-    MONGO_SERVICE_NAME: mongo-cluster
+    MONGO_SERVICE_NAME: mongo-config
   tty: true
   entrypoint: /opt/rancher/bin/entrypoint.sh
   command:
