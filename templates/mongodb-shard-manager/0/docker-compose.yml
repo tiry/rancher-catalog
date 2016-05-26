@@ -12,6 +12,7 @@ mongo-config:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: mongo-base, mongo-datavolume
+    io.rancher.container.network: true
   volumes_from:
     - mongo-datavolume
     - mongo-base
@@ -22,6 +23,8 @@ mongo-s:
   tty: true
   entrypoint: mongos --configdb ${config_repl_set_name}/mongo-config:27017
   image: mongo:3.2
+  labels:
+    io.rancher.container.network: true
   links: 
      - mongo-config
 mongo-base:
