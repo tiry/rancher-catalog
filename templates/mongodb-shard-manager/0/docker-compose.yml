@@ -6,6 +6,7 @@ mongo-config:
   entrypoint: /opt/rancher/bin/entrypoint.sh
   command:
   - --configsvr  
+  - --port 27017
   - --replSet
   - "${config_repl_set_name}"
   image: mongo:3.2
