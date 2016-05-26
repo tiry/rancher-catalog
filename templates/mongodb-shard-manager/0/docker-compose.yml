@@ -3,9 +3,10 @@ mongo-config:
   environment:
     MONGO_SERVICE_NAME: mongo-config
   tty: true
-  entrypoint: /opt/rancher/bin/entrypoint.sh
   command:
-  - --configsvr  --port 27017 
+  - /opt/rancher/bin/entrypoint.sh
+  - --configsvr  
+  - --port 27017
   - --replSet
   - "${config_repl_set_name}"
   image: mongo:3.2
