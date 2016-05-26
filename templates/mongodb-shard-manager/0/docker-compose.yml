@@ -7,7 +7,7 @@ mongo-config:
   command:
   - --configsvr  
   - --replSet
-  - "${replset_name}"
+  - "${config_repl_set_name}"
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
@@ -15,6 +15,14 @@ mongo-config:
   volumes_from:
     - mongo-datavolume
     - mongo-base
+mongo-s:
+  restart: always
+  environment:
+    MONGO_SERVICE_NAME: mongo-s
+  tty: true
+  entrypoint: mongos --configdb ${config_repl_set_name}/mongo-config:27017
+  image: mongo:3.2
+  link: mongo-config
 mongo-base:
   restart: always
   net: none

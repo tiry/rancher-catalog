@@ -3,7 +3,7 @@ mongo-s:
   environment:
     MONGO_SERVICE_NAME: mongo-cluster
   tty: true
-  entrypoint: mongos --configdb ${config_repl_set_name}/${config_repl_set_IPs}
+  entrypoint: mongos --configdb ${config_repl_set_name}/${config_repl_set_IP1},${config_repl_set_IP2},${config_repl_set_IP3}
   image: mongo:3.2
 mongo-cluster:
   restart: always

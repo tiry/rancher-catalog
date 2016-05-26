@@ -17,12 +17,21 @@
       type: "string"
       required: true
       default: "configReplSet"
-    - variable: config_repl_set_IPs
-      description: "Name of the MongoDB replicaSet"
-      label: "Config ReplicaSet Name"
-      type: "string"
+    - variable: config_repl_set_IP1
+      description: "Config Server 1"
+      label: "Config Server 1"
+      type: "service"
       required: true
-      default: "IP:port,IP:port,IP:port"
+    - variable: config_repl_set_IP2
+      description: "Config Server 2"
+      label: "Config Server 2"
+      type: "service"
+      required: true
+    - variable: config_repl_set_IP3
+      description: "Config Server 3"
+      label: "Config Server 3"
+      type: "service"
+      required: true
 mongo-config:
   scale: 3
   retain_ip: true
