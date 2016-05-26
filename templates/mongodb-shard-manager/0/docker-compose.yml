@@ -22,7 +22,8 @@ mongo-debug:
   environment:
     MONGO_SERVICE_NAME: mongo-config
   tty: true
-  entrypoint: /bin/true
+  command:
+   - while true;do sleep 1;done
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
