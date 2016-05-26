@@ -22,7 +22,8 @@ mongo-s:
   tty: true
   entrypoint: mongos --configdb ${config_repl_set_name}/mongo-config:27017
   image: mongo:3.2
-  links: mongo-config
+  links: 
+     - mongo-config
 mongo-base:
   restart: always
   net: none
