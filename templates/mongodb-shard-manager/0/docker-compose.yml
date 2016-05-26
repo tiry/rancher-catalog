@@ -3,8 +3,8 @@ mongo-config:
   environment:
     MONGO_SERVICE_NAME: mongo-config
   tty: true
+  entrypoint: /opt/rancher/bin/entrypoint.sh
   command:
-  - /opt/rancher/bin/entrypoint.sh
   - --configsvr  
   - --port 27017
   - --replSet
@@ -16,6 +16,19 @@ mongo-config:
     io.rancher.container.network: true
   volumes_from:
     - mongo-datavolume
+    - mongo-base
+mongo-debug:
+  restart: always
+  environment:
+    MONGO_SERVICE_NAME: mongo-config
+  tty: true
+  entrypoint: /bin/true
+  image: mongo:3.2
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.sidekicks: mongo-base
+    io.rancher.container.network: true
+  volumes_from:
     - mongo-base
 mongo-s:
   restart: always
