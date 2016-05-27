@@ -50,8 +50,12 @@ mongo-shard-one:
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
+    io.rancher.sidekicks: mongo-base
 #    io.rancher.sidekicks: mongo-base, mongo-datavolume
     io.rancher.container.network: true
+  volumes_from:
+    - mongo-base
+
 #  volumes_from:
 #    - mongo-datavolume
 #    - mongo-base
