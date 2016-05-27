@@ -68,8 +68,6 @@ mongo-shard-two:
     - mongo-base
 mongo-shard-setup:
   restart: always
-  environment:
-    MONGO_SERVICE_NAME: mongo-shard-two
   tty: true
   entrypoint: /bin/bash -c
   command:

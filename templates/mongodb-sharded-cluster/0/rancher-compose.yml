@@ -11,14 +11,18 @@
       type: "string"
       required: true
       default: "configReplSet"  
-    - variable: replset_name
-      description: "Name of the MongoDB replicaSet"
-      label: "ReplicaSet Name"
+    - variable: repl_set_prefix
+      description: "Prefix for the MongoDB replicaSet"
+      label: "ReplicaSet Prefix Name"
       type: "string"
       required: true
       default: "rs"
 mongo-s:
   scale: 2
+mongo-shard-one:
+  scale: 3
+mongo-shard-two:
+  scale: 3
 mongo-config:
   scale: 3
   retain_ip: true
