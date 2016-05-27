@@ -38,20 +38,20 @@ mongo-s:
     io.rancher.container.network: true
   links: 
      - mongo-config
-#mongo-shard-one:
-#  restart: always
-#  environment:
-#    MONGO_SERVICE_NAME: mongo-shard-one
-#  tty: true
-#  entrypoint: "/opt/rancher/bin/entrypoint.sh --port 27017 --replSet \"${repl_set_prefix}_1\""
-#  image: mongo:3.2
-# labels:
-#    io.rancher.container.hostname_override: container_name
-#    io.rancher.sidekicks: mongo-base, mongo-datavolume
-#    io.rancher.container.network: true
-#  volumes_from:
-#    - mongo-datavolume
-#    - mongo-base
+mongo-shard-one:
+  restart: always
+  environment:
+    MONGO_SERVICE_NAME: mongo-shard-one
+  tty: true
+  entrypoint: "/opt/rancher/bin/entrypoint.sh --port 27017 --replSet \"${repl_set_prefix}_1\""
+  image: mongo:3.2
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.sidekicks: mongo-base, mongo-datavolume
+    io.rancher.container.network: true
+  volumes_from:
+    - mongo-datavolume
+    - mongo-base
 #mongo-shard-two:
 #  restart: always
 #  environment:
