@@ -69,9 +69,7 @@ mongo-shard-two:
 mongo-shard-setup:
   restart: always
   tty: true
-  entrypoint: /bin/bash -c
-  command:
-   - while true;do sleep 1;done
+  entrypoint: "mongo --host mongo-s --eval \"sh.addShard( '${repl_set_prefix}_1/mongo-shard-one:27017' )\" && mongo --host mongo-s --eval \"sh.addShard( '${repl_set_prefix}_2/mongo-shard-two:27017' )\""
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
