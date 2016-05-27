@@ -3,6 +3,9 @@ mongo-config:
   environment:
     MONGO_SERVICE_NAME: mongo-config
   tty: true
+# mongodb config server is by default on port 27019
+# so it does not work with the default replicatset setup that contains a hard-coded 27017
+# but because of the way  entrypoint.sh  is coded, we can not send the port via command ...
   entrypoint: "/opt/rancher/bin/entrypoint.sh --configsvr --port 27017 --replSet \"${config_repl_set_name}\""
   image: mongo:3.2
   labels:
@@ -47,11 +50,12 @@ mongo-shard-one:
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
-    io.rancher.sidekicks: mongo-base, mongo-datavolume
+#    io.rancher.sidekicks: mongo-base, mongo-datavolume
     io.rancher.container.network: true
-  volumes_from:
-    - mongo-datavolume
-    - mongo-base
+#  volumes_from:
+#    - mongo-datavolume
+#    - mongo-base
+#
 #mongo-shard-two:
 #  restart: always
 #  environment:
