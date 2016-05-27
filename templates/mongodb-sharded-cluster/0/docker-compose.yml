@@ -57,22 +57,22 @@ mongo-shard-one:
     - mongo-base-rs1
   links: 
      - mongo-config
-#
-#mongo-shard-two:
-#  restart: always
-#  environment:
-#    MONGO_SERVICE_NAME: mongo-shard-two
-#  tty: true
-#  entrypoint: "/opt/rancher/bin/entrypoint.sh --port 27017 --replSet \"${repl_set_prefix}_2\""
-#  image: mongo:3.2
-#  labels:
-#    io.rancher.container.hostname_override: container_name
-#    io.rancher.sidekicks: mongo-base, mongo-datavolume
-#    io.rancher.container.network: true
-#  volumes_from:
-#    - mongo-datavolume
-#    - mongo-base
-mongo-shard-setup:
+
+mongo-shard-two:
+  restart: always
+  environment:
+    MONGO_SERVICE_NAME: mongo-shard-two
+  tty: true
+  entrypoint: "/opt/rancher/bin/entrypoint.sh --port 27017 --replSet \"${repl_set_prefix}_2\""
+  image: mongo:3.2
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.sidekicks: mongo-base-rs2, mongo-datavolume-rs2
+    io.rancher.container.network: true
+  volumes_from:
+    - mongo-datavolume-rs2
+    - mongo-base-rs2
+mongo-shard-one-setup:
   restart: always
   tty: true
   entrypoint: /bin/bash -c
@@ -86,6 +86,19 @@ mongo-shard-setup:
   links: 
      - mongo-s
      - mongo-shard-one
+mongo-shard-two-setup:
+  restart: always
+  tty: true
+  entrypoint: /bin/bash -c
+  command:
+   - for IP in `getent hosts mongo-shard-two | awk '{ print $$1 }'`;do mongo --host mongo-s --eval "sh.addShard( '${repl_set_prefix}_2/$$IP:27017' )";done;
+  image: mongo:3.2
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.container.network: true
+    io.rancher.container.start_once: true
+  links: 
+     - mongo-s
      - mongo-shard-two
 mongo-base:
   restart: always
@@ -107,6 +120,16 @@ mongo-base-rs1:
   image: rancher/mongodb-conf:v0.1.0
   stdin_open: true
   entrypoint: /bin/true
+mongo-base-rs2:
+  restart: always
+  net: none
+  tty: true
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.container.start_once: true
+  image: rancher/mongodb-conf:v0.1.0
+  stdin_open: true
+  entrypoint: /bin/true
 mongo-datavolume:
   net: none
   labels:
@@ -118,6 +141,15 @@ mongo-datavolume:
   image: busybox
 # each shard should have it's own datavolume otherwise it creates some name conflict during the deployment  
 mongo-datavolume-rs1:
+  net: none
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.container.start_once: true
+  volumes:
+    - /data/db
+  entrypoint: /bin/true
+  image: busybox
+mongo-datavolume-rs2:
   net: none
   labels:
     io.rancher.container.hostname_override: container_name
