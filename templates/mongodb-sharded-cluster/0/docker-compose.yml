@@ -71,8 +71,8 @@ mongo-shard-setup:
   tty: true
   entrypoint: /bin/bash -c
   command:
-   - export shard_ip= `getent hosts mongo-shard-one | awk '{ print $1 }'| head-n 1`
-   - mongo --host mongo-s --eval \"sh.addShard( '${repl_set_prefix}_1/$shard_ip:27017' )\"
+   - export shard_ip= `getent hosts mongo-shard-one | awk '{ print $$1 }'| head-n 1`
+   - mongo --host mongo-s --eval \"sh.addShard( '${repl_set_prefix}_1/$$shard_ip:27017' )\"
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
