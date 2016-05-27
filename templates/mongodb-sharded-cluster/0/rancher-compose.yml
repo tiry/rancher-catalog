@@ -2,7 +2,7 @@
   name: "MongoShardedClusterServer"
   version: "3.2-rancher1"
   description: "MongoDB Sharded Cluster"
-  uuid: mongodb-1
+  uuid: mongodb-shard-1
   minimum_rancher_version: v0.46.0
   questions:    
     - variable: config_repl_set_name
@@ -29,5 +29,5 @@ mongo-config:
   metadata:
     mongo:
       yml:
-        replset.name: "${replset_name}"
+        replset.name: "${config_repl_set_name}"
 
