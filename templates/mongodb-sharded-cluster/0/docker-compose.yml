@@ -51,14 +51,11 @@ mongo-shard-one:
   labels:
     io.rancher.container.hostname_override: container_name
     io.rancher.sidekicks: mongo-base
-#    io.rancher.sidekicks: mongo-base, mongo-datavolume
+    io.rancher.sidekicks: mongo-base, mongo-datavolume-rs1
     io.rancher.container.network: true
   volumes_from:
+    - mongo-datavolume-rs1
     - mongo-base
-
-#  volumes_from:
-#    - mongo-datavolume
-#    - mongo-base
 #
 #mongo-shard-two:
 #  restart: always
@@ -79,7 +76,7 @@ mongo-shard-setup:
   tty: true
   entrypoint: /bin/bash -c
   command:
-   - export shard_ip= `getent hosts mongo-shard-one | awk '{ print $$1 }'| head -n 1`
+   - export shard_ip=`getent hosts mongo-shard-one | awk '{ print $$1 }'| head -n 1`
    - mongo --host mongo-s --eval \"sh.addShard( '${repl_set_prefix}_1/$$shard_ip:27017' )\"
   image: mongo:3.2
   labels:
@@ -109,4 +106,13 @@ mongo-datavolume:
     - /data/db
   entrypoint: /bin/true
   image: busybox
-
+# each shard should have it's own datavolume otherwise it creates some name conflict during the deployment  
+mongo-datavolume-rs1:
+  net: none
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.container.start_once: true
+  volumes:
+    - /data/db
+  entrypoint: /bin/true
+  image: busybox
