@@ -4,7 +4,7 @@ mongo-config:
     MONGO_SERVICE_NAME: mongo-config
   tty: true
 # mongodb config server is by default on port 27019
-# so it does not work with the default replicatset setup that contains a hard-coded 27017
+# so it does not work with the default replicatset setup provided in the DockerImage since it contains a hard-coded 27017
 # but because of the way  entrypoint.sh  is coded, we can not send the port via command ...
   entrypoint: "/opt/rancher/bin/entrypoint.sh --configsvr --port 27017 --replSet \"${config_repl_set_name}\""
   image: mongo:3.2
@@ -26,10 +26,7 @@ mongo-debug:
   image: mongo:3.2
   labels:
     io.rancher.container.hostname_override: container_name
-##    io.rancher.sidekicks: mongo-base
     io.rancher.container.network: true
-#  volumes_from:
-#    - mongo-base
 mongo-s:
   restart: always
   environment:
@@ -111,6 +108,7 @@ mongo-base:
   image: rancher/mongodb-conf:v0.1.0
   stdin_open: true
   entrypoint: /bin/true
+# each shard should have it's own base otherwise it creates some name conflict during the deployment  
 mongo-base-rs1:
   restart: always
   net: none
