@@ -57,7 +57,6 @@ mongo-shard-one:
     - mongo-base-rs1
   links: 
      - mongo-config
-
 mongo-shard-two:
   restart: always
   environment:
@@ -72,6 +71,8 @@ mongo-shard-two:
   volumes_from:
     - mongo-datavolume-rs2
     - mongo-base-rs2
+  links: 
+     - mongo-config    
 mongo-shard-one-setup:
   restart: always
   tty: true
